@@ -84,13 +84,6 @@ WordWebDB_API is designed to be deployed using Docker, which ensures that it run
 
 Now, WordWebDB_API is running in a Docker container on your machine, accessible at `localhost:5000`.
 
-### Running the API
-
-1. Run the Flask app
-    ```
-    flask run
-    ```
-
 ## API Endpoints
 
 - `/init_db`: Initializes the database from scratch
