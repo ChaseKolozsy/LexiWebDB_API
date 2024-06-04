@@ -53,9 +53,11 @@ The `Familiar` field keeps track of whether or not the word has been encountered
 
 - docker-engine
 
-## Docker Deployment
+## Installation
 
-WordWebDB_API is designed to be deployed using Docker, which ensures that it runs in the same environment regardless of where it is deployed. The Docker container also includes a PostgreSQL database, providing a self-contained environment for the application.
+To set up the WordWebDB_API project, follow these steps:
+
+1. Clone the WordWebDB_API repository:
 
 1. Clone the repository
     ```
@@ -72,17 +74,17 @@ WordWebDB_API is designed to be deployed using Docker, which ensures that it run
 2. Navigate to the project directory.
 3. Build the Docker image:
     ```
-    docker build -t wordwebdb_api .
+    docker-compose build --no-cache .
     ```
 
 ### Running the Docker Container
 
 1. Run the Docker container:
     ```
-    docker run -p 5000:5000 wordwebdb_api
+    docker-compose up
     ```
 
-Now, WordWebDB_API is running in a Docker container on your machine, accessible at `localhost:5000`.
+Now, WordWebDB_API is running in a Docker container on your machine, accessible at `localhost:5002`.
 
 ## API Endpoints
 
