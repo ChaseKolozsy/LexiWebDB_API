@@ -3,8 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.exc import SQLAlchemyError
 
 from dotenv import load_dotenv
-from models import Lemmas, Enumerated_Lemmas
-from blueprint_Lemmas import lemmas
+from models import Enumerated_Lemmas
 from blueprint_Enumerated_Lemmas import enumerated_lemmas
 
 import os
@@ -12,7 +11,6 @@ import os
 load_dotenv()
 
 app = Flask(__name__)
-app.register_blueprint(lemmas, url_prefix='/lemmas')
 app.register_blueprint(enumerated_lemmas, url_prefix='/enumerated_lemmas')
 
 # Configure the PostgreSQL database
