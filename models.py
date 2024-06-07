@@ -7,14 +7,14 @@ class Enumerated_Lemmas(db.Model):
     enumerated_lemma = db.Column(db.String, primary_key=True)
     base_lemma = db.Column(db.String, nullable=False)
     definition = db.Column(db.String, nullable=False)
-    Part_of_speech = db.Column(db.String, nullable=True)
+    part_of_speech = db.Column(db.String, nullable=True)
     frequency = db.Column(db.Integer, nullable=True)
-    Phrase = db.Column(db.String, nullable=True)
-    Story_link = db.Column(db.String, nullable=True)
-    Media_Excerpts = db.Column(db.ARRAY(db.String), nullable=True, comment='Stores filenames for media excerpts')
-    Object_Exploration_link = db.Column(db.String, nullable=True)
+    phrase = db.Column(db.String, nullable=True)
+    story_link = db.Column(db.String, nullable=True)
+    media_excerpts = db.Column(db.ARRAY(db.String), nullable=True, comment='Stores filenames for media excerpts')
+    object_exploration_link = db.Column(db.String, nullable=True)
     anki_card_ids = db.Column(db.ARRAY(db.Integer), nullable=True)
-    Familiar = db.Column(db.Boolean, nullable=False)
+    familiar = db.Column(db.Boolean, nullable=False)
 
     def __repr__(self):
         return f'<Definition {self.enumerated_lemma} ({self.Part_of_speech}):\nfrequency: {self.frequency}:\ndefinition: {self.definition}>'

@@ -32,13 +32,13 @@ def create_enumerated_lemma():
         enumerated_lemma=enumerated_lemma, 
         base_lemma=data.get('base_lemma', None),  # Ensure base_lemma is included
         definition=definition, 
-        Part_of_speech=part_of_speech, 
+        part_of_speech=part_of_speech, 
         frequency=frequency, 
-        Phrase=phrase, 
-        Story_link=story_link, 
-        Media_Excerpts=media_excerpts, 
-        Object_Exploration_link=object_exploration_link, 
-        Familiar=familiar,
+        phrase=phrase, 
+        story_link=story_link, 
+        media_excerpts=media_excerpts, 
+        object_exploration_link=object_exploration_link, 
+        familiar=familiar,
         anki_card_ids=anki_card_ids
     )
     new_enumerated_lemma.add()
