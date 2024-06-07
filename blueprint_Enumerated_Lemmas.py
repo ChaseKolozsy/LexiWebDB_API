@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify, request
 from models import db, Enumerated_Lemmas
+from sqlalchemy.exc import IntegrityError
 
 enumerated_lemmas = Blueprint('enumerated_lemmas', __name__)
 
@@ -30,7 +31,7 @@ def create_enumerated_lemma():
 
     new_enumerated_lemma = Enumerated_Lemmas(
         enumerated_lemma=enumerated_lemma, 
-        base_lemma=data.get('base_lemma', None),  # Ensure base_lemma is included
+        base_lemma=base_lemma,  # Ensure base_lemma is included
         definition=definition, 
         part_of_speech=part_of_speech, 
         frequency=frequency, 
@@ -41,9 +42,13 @@ def create_enumerated_lemma():
         familiar=familiar,
         anki_card_ids=anki_card_ids
     )
-    new_enumerated_lemma.add()
-    return jsonify(message="Enumerated Lemma created successfully")
 
+    try:
+        new_enumerated_lemma.add()
+        return jsonify(message="Enumerated Lemma created successfully")
+    except IntegrityError:
+        db.session.rollback()
+        return jsonify(error="Enumerated Lemma already exists"), 400
 @enumerated_lemmas.route('', methods=['GET'])
 def get_all_enumerated_lemmas():
     all_enumerated_lemmas = Enumerated_Lemmas.query_all()

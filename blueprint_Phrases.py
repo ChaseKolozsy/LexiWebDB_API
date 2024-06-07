@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify, request
 from models import db, Phrases
+from sqlalchemy.exc import IntegrityError
 
 phrases = Blueprint('phrases', __name__)
 
@@ -24,8 +25,13 @@ def create_phrase():
         familiar=familiar,
         frequency=frequency
     )
-    new_phrase.add()
-    return jsonify(message="Phrase created successfully")
+
+    try:
+        new_phrase.add()
+        return jsonify(message="Phrase created successfully")
+    except IntegrityError:
+        db.session.rollback()
+        return jsonify(error="Phrase already exists"), 400
 
 @phrases.route('', methods=['GET'])
 def get_all_phrases():
