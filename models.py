@@ -13,6 +13,7 @@ class Enumerated_Lemmas(db.Model):
     Story_link = db.Column(db.String, nullable=True)
     Media_Excerpts = db.Column(db.ARRAY(db.String), nullable=True, comment='Stores filenames for media excerpts')
     Object_Exploration_link = db.Column(db.String, nullable=True)
+    anki_card_ids = db.Column(db.ARRAY(db.Integer), nullable=True)
     Familiar = db.Column(db.Boolean, nullable=False)
 
     def __repr__(self):
@@ -31,6 +32,12 @@ class Enumerated_Lemmas(db.Model):
 
     def to_dict(self):
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+
+    def increment_frequency(self):
+        if self.frequency is None:
+            self.frequency = 0
+        self.frequency += 1
+        db.session.commit()
 
     @staticmethod
     def query_all():

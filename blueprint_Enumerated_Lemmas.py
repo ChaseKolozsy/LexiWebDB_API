@@ -23,6 +23,7 @@ def create_enumerated_lemma():
     media_excerpts = data.get('media_excerpts', None)
     object_exploration_link = data.get('object_exploration_link', None)
     familiar = data.get('familiar', None)
+    anki_card_ids = data.get('anki_card_ids', None)
 
     if not enumerated_lemma:
         return jsonify(error="Enumerated Lemma is required"), 400
@@ -37,7 +38,8 @@ def create_enumerated_lemma():
         Story_link=story_link, 
         Media_Excerpts=media_excerpts, 
         Object_Exploration_link=object_exploration_link, 
-        Familiar=familiar
+        Familiar=familiar,
+        anki_card_ids=anki_card_ids
     )
     new_enumerated_lemma.add()
     return jsonify(message="Enumerated Lemma created successfully")
@@ -71,4 +73,12 @@ def delete_enumerated_lemma(enumerated_lemma):
     if existing_lemma:
         existing_lemma.delete()
         return jsonify(message="Lemma deleted successfully")
+    return jsonify(error="Lemma not found"), 404
+
+@enumerated_lemmas.route('/increment_frequency/<lemma_name>', methods=['POST'])
+def increment_frequency(lemma_name):
+    enumerated_lemma = Enumerated_Lemmas.query_by_lemma(lemma_name)
+    if enumerated_lemma:
+        enumerated_lemma.increment_frequency()
+        return jsonify(message="Frequency incremented successfully", frequency=enumerated_lemma.frequency)
     return jsonify(error="Lemma not found"), 404
