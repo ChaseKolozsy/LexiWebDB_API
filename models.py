@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
 class Enumerated_Lemmas(db.Model):
+    __tablename__ = 'enumerated_lemmas'  # Explicitly set the table name
     enumerated_lemma = db.Column(db.String, primary_key=True)
     base_lemma = db.Column(db.String, nullable=False)
     definition = db.Column(db.String, nullable=False)
@@ -27,6 +28,9 @@ class Enumerated_Lemmas(db.Model):
     def delete(self):
         db.session.delete(self)
         db.session.commit()
+
+    def to_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
     @staticmethod
     def query_all():
