@@ -126,16 +126,17 @@ class BranchNode(db.Model):
     __tablename__ = 'branch_nodes'
     node_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     branch_id = db.Column(db.Integer, db.ForeignKey('branches.branch_id'), nullable=False)
-    value = db.Column(db.String, nullable=False)
-    definition = db.Column(db.String, nullable=False)
-    part_of_speech = db.Column(db.String, nullable=True)
+    enumerated_lemma = db.Column(db.String, db.ForeignKey('enumerated_lemmas.enumerated_lemma'), nullable=False)
     parent_node_id = db.Column(db.Integer, db.ForeignKey('branch_nodes.node_id'), nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
     branch = db.relationship('Branch', backref=db.backref('nodes', lazy=True))
     parent_node = db.relationship('BranchNode', remote_side=[node_id], backref='children')
+    lemma = db.relationship('Enumerated_Lemmas', backref=db.backref('nodes', lazy=True))
 
+    def __repr__(self):
+        return f'<BranchNode {self.node_id}: {self.lemma.enumerated_lemma}>'
     def __repr__(self):
         return f'<BranchNode {self.node_id}: {self.value}>'
 
