@@ -59,8 +59,8 @@ The `Familiar` field keeps track of whether or not the word has been encountered
 
 ## BranchNode
  - Node-Level Hierarchy: Represents individual nodes within a branch, linking each node to a specific lemma and establishing parent-child relationships to maintain the hierarchy.
- - Contextual Learning: Provides context for each lemma within the branch, including its definition and part of speech, to facilitate learning within a structured context.
- - Branch Integration: Links nodes to their respective branches and parent nodes, ensuring that the hierarchical structure is maintained and can be navigated efficiently.
+ - Contextual Learning: Provides context for each lemma within the branch to facilitate learning within a structured context.
+ - Branch Integration: Links nodes to their respective branches and parent nodes, as well as to its enumerated_lemma, ensuring that the hierarchical structure is maintained and can be navigated efficiently, and that the node is linked to the correct lemma.
 
 ## Summary of Interactions
  - Enumerated_Lemmas: Provides the foundational vocabulary and metadata. It is the reference point for definitions and familiarity, motivating the creation of branches.
