@@ -7,6 +7,8 @@ from dotenv import load_dotenv
 from models import db, Enumerated_Lemmas, Phrases
 from blueprint_Enumerated_Lemmas import enumerated_lemmas
 from blueprint_Phrases import phrases
+from blueprint_branches import branches
+from blueprint_branch_nodes import branch_nodes
 
 import os
 
@@ -15,6 +17,8 @@ load_dotenv()
 app = Flask(__name__)
 app.register_blueprint(enumerated_lemmas, url_prefix='/enumerated_lemmas')
 app.register_blueprint(phrases, url_prefix='/phrases')
+app.register_blueprint(branches, url_prefix='/branches')
+app.register_blueprint(branch_nodes, url_prefix='/branch_nodes')
 
 # Configure the PostgreSQL database
 app.config['SQLALCHEMY_DATABASE_URI'] = f"postgresql://{os.getenv('POSTGRES_USER')}:{os.getenv('POSTGRES_PASSWORD')}@db:5432/{os.getenv('POSTGRES_DB')}"
