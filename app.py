@@ -4,7 +4,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy import inspect, text
 
 from dotenv import load_dotenv
-from models import db, Enumerated_Lemmas, Phrases
+from models import db, Enumerated_Lemmas, Phrases, Branch, BranchNode
 from blueprint_Enumerated_Lemmas import enumerated_lemmas
 from blueprint_Phrases import phrases
 from blueprint_branches import branches
@@ -50,15 +50,19 @@ def reset_db():
 @app.route('/drop_columns', methods=['POST'])
 def drop_columns_not_in_opt_in_list():
     data = request.get_json()
+    table_name = data.get('table_name', '')
     opt_in_fields = data.get('opt_in_fields', [])
 
-    inspector = inspect(db.engine)
-    columns = inspector.get_columns('enumerated_lemmas')
-    columns_to_drop = [col['name'] for col in columns if col['name'] not in opt_in_fields and col['name'] != 'enumerated_lemma']
+    try:
+        inspector = inspect(db.engine)
+        columns = inspector.get_columns(f'{table_name}')
+        columns_to_drop = [col['name'] for col in columns if col['name'] not in opt_in_fields]
 
-    with db.engine.connect() as conn:
-        for column in columns_to_drop:
-            conn.execute(text(f'ALTER TABLE enumerated_lemmas DROP COLUMN {column}'))
+        with db.engine.connect() as conn:
+            for column in columns_to_drop:
+                conn.execute(text(f'ALTER TABLE {table_name} DROP COLUMN {column}'))
+    except Exception as e:
+        return jsonify(error=str(e)), 500
 
     return jsonify(columns_to_drop), 200
 
