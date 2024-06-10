@@ -1,3 +1,4 @@
+from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
@@ -87,3 +88,75 @@ class Phrases(db.Model):
     def query_by_phrase(phrase):
         return Phrases.query.filter_by(phrase=phrase).first()
 
+class Branch(db.Model):
+    __tablename__ = 'branches'
+    branch_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    root_node = db.Column(db.String, nullable=False)
+    branch_name = db.Column(db.String, nullable=True)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    def __repr__(self):
+        return f'<Branch {self.branch_id}: {self.branch_name}>'
+
+    def add(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def update(self):
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+
+    def to_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+
+    @staticmethod
+    def query_all():
+        return Branch.query.all()
+
+    @staticmethod
+    def query_by_id(branch_id):
+        return Branch.query.filter_by(branch_id=branch_id).first()
+
+
+class BranchNode(db.Model):
+    __tablename__ = 'branch_nodes'
+    node_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    branch_id = db.Column(db.Integer, db.ForeignKey('branches.branch_id'), nullable=False)
+    value = db.Column(db.String, nullable=False)
+    definition = db.Column(db.String, nullable=False)
+    part_of_speech = db.Column(db.String, nullable=True)
+    parent_node_id = db.Column(db.Integer, db.ForeignKey('branch_nodes.node_id'), nullable=True)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    branch = db.relationship('Branch', backref=db.backref('nodes', lazy=True))
+    parent_node = db.relationship('BranchNode', remote_side=[node_id], backref='children')
+
+    def __repr__(self):
+        return f'<BranchNode {self.node_id}: {self.value}>'
+
+    def add(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def update(self):
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+
+    def to_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+
+    @staticmethod
+    def query_all():
+        return BranchNode.query.all()
+
+    @staticmethod
+    def query_by_id(node_id):
+        return BranchNode.query.filter_by(node_id=node_id).first()

@@ -47,6 +47,27 @@ The `Familiar` field keeps track of whether or not the word has been encountered
 |------------------|----------------|------------|----------------|-----------|------------|----------------|-------------------------|---------------|----------|
 |                  |                |            |                |           |            |                |                         |               |          |
 
+## Enumerated_Lemmas
+ - Centralized Lemma Metadata: Acts as a comprehensive dictionary, storing detailed information about each lemma, including definitions, part of speech, frequency, familiarity, and multimedia references.
+ - Familiarity Tracking: Keeps track of whether a lemma is known or familiar to the user, which can be used to tailor learning experiences and prioritize new lemmas.
+- Reference for Branch Creation: Serves as the primary source for creating branches. Every lemma and the words in its definitions and example phrases must exist within a branch, ensuring that all necessary vocabulary is covered.
+
+## Branch
+ - Hierarchical Structure Management: Defines the structure of branches, representing sequences or hierarchies of lemmas that need to be learned in a specific order.
+ - Branch Metadata: Stores metadata about each branch, such as the root node, branch name, and timestamps for creation and updates, providing context and organization.
+ - Prerequisite Knowledge Tracking: Ensures that lemmas are learned in the correct order by maintaining hierarchical relationships and prerequisites within each branch, facilitating structured learning.
+
+## BranchNode
+ - Node-Level Hierarchy: Represents individual nodes within a branch, linking each node to a specific lemma and establishing parent-child relationships to maintain the hierarchy.
+ - Contextual Learning: Provides context for each lemma within the branch, including its definition and part of speech, to facilitate learning within a structured context.
+ - Branch Integration: Links nodes to their respective branches and parent nodes, ensuring that the hierarchical structure is maintained and can be navigated efficiently.
+
+## Summary of Interactions
+ - Enumerated_Lemmas: Provides the foundational vocabulary and metadata. It is the reference point for definitions and familiarity, motivating the creation of branches.
+ - Branch: Organizes the learning process by defining the hierarchical structure and prerequisites for learning lemmas. It ensures that all necessary vocabulary from Enumerated_Lemmas is covered.
+ - BranchNode: Implements the detailed structure within each branch, linking to specific lemmas and providing contextual information to facilitate learning.
+
+
 ## Getting Started
 
 ### Prerequisites
