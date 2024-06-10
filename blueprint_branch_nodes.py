@@ -46,16 +46,6 @@ def get_branch_node_by_id(node_id):
         return jsonify(branch_node.to_dict())
     return jsonify(error="Branch Node not found"), 404
 
-@branch_nodes.route('/<int:node_id>', methods=['PUT'])
-def update_branch_node(node_id):
-    data = request.json
-    existing_branch_node = BranchNode.query_by_id(node_id)
-    if existing_branch_node:
-        for key, value in data.items():
-            setattr(existing_branch_node, key, value)
-        existing_branch_node.update()
-        return jsonify(message="Branch Node updated successfully")
-    return jsonify(error="Branch Node not found"), 404
 
 @branch_nodes.route('/<int:node_id>', methods=['DELETE'])
 def delete_branch_node(node_id):

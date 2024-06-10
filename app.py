@@ -55,9 +55,15 @@ def drop_columns_not_in_opt_in_list():
 
     try:
         inspector = inspect(db.engine)
-        columns = inspector.get_columns(f'{table_name}')
-        columns_to_drop = [col['name'] for col in columns if col['name'] not in opt_in_fields]
+        columns = inspector.get_columns(table_name)
+        primary_keys = set(inspector.get_pk_constraint(table_name)['constrained_columns'])
+        foreign_keys = {fk['constrained_columns'][0] for fk in inspector.get_foreign_keys(table_name)}
 
+        columns_to_drop = [
+            col['name'] for col in columns 
+            if col['name'] not in opt_in_fields and col['name'] not in primary_keys and col['name'] not in foreign_keys
+        ]
+        
         with db.engine.connect() as conn:
             for column in columns_to_drop:
                 conn.execute(text(f'ALTER TABLE {table_name} DROP COLUMN {column}'))
