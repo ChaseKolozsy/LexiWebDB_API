@@ -352,6 +352,7 @@ class Routine(db.Model):
     __tablename__ = 'routines'
     routine_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String, nullable=False)
+    description = db.Column(db.String, nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
