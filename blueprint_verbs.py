@@ -14,6 +14,7 @@ def get_verbs_schema():
 @verbs.route('', methods=['GET'])
 def get_all_verbs():
     verbs = Verb.query_all()
+    return jsonify([verb.to_dict() for verb in verbs]), 200
 
 @verbs.route('/<int:verb_id>', methods=['GET'])
 def get_verb(verb_id):

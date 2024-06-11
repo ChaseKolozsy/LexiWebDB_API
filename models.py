@@ -141,6 +141,7 @@ class BranchNode(db.Model):
 
     def __repr__(self):
         return f'<BranchNode {self.node_id}: {self.lemma.enumerated_lemma}>'
+
     def __repr__(self):
         return f'<BranchNode {self.node_id}: {self.value}>'
 
@@ -257,6 +258,10 @@ class Object(db.Model):
         return Object.query.all()
 
     @staticmethod
+    def query_by_name(name):
+        return Object.query.filter_by(name=name).first()
+
+    @staticmethod
     def query_by_id(object_id):
         return Object.query.filter_by(object_id=object_id).first()
 
@@ -289,6 +294,10 @@ class Attribute(db.Model):
     @staticmethod
     def query_all():
         return Attribute.query.all()
+
+    @staticmethod
+    def query_by_name(name):
+        return Attribute.query.filter_by(name=name).first()
 
     @staticmethod
     def query_by_id(attribute_id):
@@ -325,6 +334,10 @@ class Verb(db.Model):
         return Verb.query.all()
 
     @staticmethod
+    def query_by_name(name):
+        return Verb.query.filter_by(name=name).first()
+
+    @staticmethod
     def query_by_id(verb_id):
         return Verb.query.filter_by(verb_id=verb_id).first()
 
@@ -357,6 +370,10 @@ class State(db.Model):
     @staticmethod
     def query_all():
         return State.query.all()
+
+    @staticmethod
+    def query_by_name(name):
+        return State.query.filter_by(name=name).first()
 
     @staticmethod
     def query_by_id(state_id):
@@ -392,6 +409,10 @@ class Routine(db.Model):
     @staticmethod
     def query_all():
         return Routine.query.all()
+     
+    @staticmethod
+    def query_by_name(name):
+        return Routine.query.filter_by(name=name).first()
 
     @staticmethod
     def query_by_id(routine_id):
