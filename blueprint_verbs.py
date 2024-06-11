@@ -57,3 +57,11 @@ def delete_verb(verb_id):
         verb.delete()
         return jsonify({'message': 'Verb deleted'}), 200
     return jsonify({'error': 'Verb not found'}), 404
+
+@verbs.route('/<int:verb_id>/objects', methods=['GET'])
+def get_objects_by_verb(verb_id):
+    verb = Verb.query_by_id(verb_id)
+    if verb:
+        objects = verb.objects
+        return jsonify([obj.to_dict() for obj in objects]), 200
+    return jsonify({'error': 'Verb not found'}), 404

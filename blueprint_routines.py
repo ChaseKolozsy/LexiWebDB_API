@@ -63,3 +63,11 @@ def delete_routine(routine_id):
         routine.delete()
         return jsonify({'message': 'Routine deleted'}), 200
     return jsonify({'error': 'Routine not found'}), 404
+
+@routines.route('/<int:routine_id>/objects', methods=['GET'])
+def get_objects_by_routine(routine_id):
+    routine = Routine.query_by_id(routine_id)
+    if routine:
+        objects = routine.objects
+        return jsonify([obj.to_dict() for obj in objects]), 200
+    return jsonify({'error': 'Routine not found'}), 404

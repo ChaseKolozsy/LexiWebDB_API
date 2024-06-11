@@ -57,3 +57,11 @@ def delete_attribute(attribute_id):
         attribute.delete()
         return jsonify({'message': 'Attribute deleted'}), 200
     return jsonify({'error': 'Attribute not found'}), 404
+
+@attributes.route('/<int:attribute_id>/objects', methods=['GET'])
+def get_objects_by_attribute(attribute_id):
+    attribute = Attribute.query_by_id(attribute_id)
+    if attribute:
+        objects = attribute.objects
+        return jsonify([obj.to_dict() for obj in objects]), 200
+    return jsonify({'error': 'Attribute not found'}), 404

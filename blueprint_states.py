@@ -57,3 +57,11 @@ def delete_state(state_id):
         state.delete()
         return jsonify({'message': 'State deleted'}), 200
     return jsonify({'error': 'State not found'}), 404
+
+@states.route('/<int:state_id>/objects', methods=['GET'])
+def get_objects_by_state(state_id):
+    state = State.query_by_id(state_id)
+    if state:
+        objects = state.objects
+        return jsonify([obj.to_dict() for obj in objects]), 200
+    return jsonify({'error': 'State not found'}), 404
