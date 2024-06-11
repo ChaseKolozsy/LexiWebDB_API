@@ -11,26 +11,26 @@ def get_routines_schema():
         schema[column.name] = str(column.type)
     return jsonify(schema)
 
-@routines.route('/routines', methods=['GET'])
+@routines.route('', methods=['GET'])
 def get_all_routines():
     routines = Routine.query_all()
     return jsonify([routine.to_dict() for routine in routines]), 200
 
-@routines.route('/routines/<int:routine_id>', methods=['GET'])
+@routines.route('/<int:routine_id>', methods=['GET'])
 def get_routine(routine_id):
     routine = Routine.query_by_id(routine_id)
     if routine:
         return jsonify(routine.to_dict()), 200
     return jsonify({'error': 'Routine not found'}), 404
 
-@routines.route('/routines/<string:routine_name>', methods=['GET'])
+@routines.route('/<string:routine_name>', methods=['GET'])
 def get_routine_by_name(routine_name):
     routine = Routine.query_by_name(routine_name)
     if routine:
         return jsonify(routine.to_dict()), 200
     return jsonify({'error': 'Routine not found'}), 404
 
-@routines.route('/routines', methods=['POST'])
+@routines.route('', methods=['POST'])
 def create_routine():
     data = request.get_json()
     routine = Routine(
@@ -44,7 +44,7 @@ def create_routine():
         db.session.rollback()
         return jsonify({'error': 'Integrity error, possibly duplicate entry'}), 400
 
-@routines.route('/routines/<int:routine_id>', methods=['PUT'])
+@routines.route('/<int:routine_id>', methods=['PUT'])
 def update_routine(routine_id):
     data = request.get_json()
     routine = Routine.query_by_id(routine_id)
@@ -56,7 +56,7 @@ def update_routine(routine_id):
         return jsonify(routine.to_dict()), 200
     return jsonify({'error': 'Routine not found'}), 404
 
-@routines.route('/routines/<int:routine_id>', methods=['DELETE'])
+@routines.route('/<int:routine_id>', methods=['DELETE'])
 def delete_routine(routine_id):
     routine = Routine.query_by_id(routine_id)
     if routine:

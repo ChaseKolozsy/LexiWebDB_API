@@ -11,25 +11,25 @@ def get_objects_schema():
         schema[column.name] = str(column.type)
     return jsonify(schema)
 
-@objects.route('/objects', methods=['GET'])
+@objects.route('', methods=['GET'])
 def get_all_objects():
     objects = Object.query_all()
 
-@objects.route('/objects/<int:object_id>', methods=['GET'])
+@objects.route('/<int:object_id>', methods=['GET'])
 def get_object(object_id):
     obj = Object.query_by_id(object_id)
     if obj:
         return jsonify(obj.to_dict()), 200
     return jsonify({'error': 'Object not found'}), 404
 
-@objects.route('/objects/<string:object_name>', methods=['GET'])
+@objects.route('/<string:object_name>', methods=['GET'])
 def get_object_by_name(object_name):
     obj = Object.query_by_name(object_name)
     if obj:
         return jsonify(obj.to_dict()), 200
     return jsonify({'error': 'Object not found'}), 404
 
-@objects.route('/objects', methods=['POST'])
+@objects.route('', methods=['POST'])
 def create_object():
     data = request.get_json()
     obj = Object(name=data.get('name'))
@@ -40,7 +40,7 @@ def create_object():
         db.session.rollback()
         return jsonify({'error': 'Integrity error, possibly duplicate entry'}), 400
 
-@objects.route('/objects/<int:object_id>', methods=['PUT'])
+@objects.route('/<int:object_id>', methods=['PUT'])
 def update_object(object_id):
     data = request.get_json()
     obj = Object.query_by_id(object_id)
@@ -49,7 +49,7 @@ def update_object(object_id):
         return jsonify(obj.to_dict()), 200
     return jsonify({'error': 'Object not found'}), 404
 
-@objects.route('/objects/<int:object_id>', methods=['DELETE'])
+@objects.route('/<int:object_id>', methods=['DELETE'])
 def delete_object(object_id):
     obj = Object.query_by_id(object_id)
     if obj:
@@ -57,7 +57,7 @@ def delete_object(object_id):
         return jsonify({'message': 'Object deleted'}), 200
     return jsonify({'error': 'Object not found'}), 404
 
-@objects.route('/objects/<int:object_id>/add_association', methods=['POST'])
+@objects.route('/<int:object_id>/add_association', methods=['POST'])
 def add_association(object_id):
     data = request.get_json()
     obj = Object.query_by_id(object_id)

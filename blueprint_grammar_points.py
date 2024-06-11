@@ -11,19 +11,19 @@ def get_grammar_points_schema():
         schema[column.name] = str(column.type)
     return jsonify(schema)
 
-@grammar_points.route('/grammar_points', methods=['GET'])
+@grammar_points.route('', methods=['GET'])
 def get_all_grammar_points():
     grammar_points = GrammarPoint.query_all()
     return jsonify([gp.to_dict() for gp in grammar_points]), 200
 
-@grammar_points.route('/grammar_points/<int:gp_id>', methods=['GET'])
+@grammar_points.route('/<int:gp_id>', methods=['GET'])
 def get_grammar_point(gp_id):
     grammar_point = GrammarPoint.query_by_id(gp_id)
     if grammar_point:
         return jsonify(grammar_point.to_dict()), 200
     return jsonify({'error': 'GrammarPoint not found'}), 404
 
-@grammar_points.route('/grammar_points', methods=['POST'])
+@grammar_points.route('', methods=['POST'])
 def create_grammar_point():
     data = request.get_json()
     grammar_point = GrammarPoint(
@@ -37,7 +37,7 @@ def create_grammar_point():
         db.session.rollback()
         return jsonify({'error': 'Integrity error, possibly duplicate entry'}), 400
 
-@grammar_points.route('/grammar_points/<int:gp_id>', methods=['PUT'])
+@grammar_points.route('/<int:gp_id>', methods=['PUT'])
 def update_grammar_point(gp_id):
     data = request.get_json()
     grammar_point = GrammarPoint.query_by_id(gp_id)
@@ -49,7 +49,7 @@ def update_grammar_point(gp_id):
         return jsonify(grammar_point.to_dict()), 200
     return jsonify({'error': 'GrammarPoint not found'}), 404
 
-@grammar_points.route('/grammar_points/<int:gp_id>', methods=['DELETE'])
+@grammar_points.route('/<int:gp_id>', methods=['DELETE'])
 def delete_grammar_point(gp_id):
     grammar_point = GrammarPoint.query_by_id(gp_id)
     if grammar_point:

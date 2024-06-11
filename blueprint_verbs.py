@@ -11,25 +11,25 @@ def get_verbs_schema():
         schema[column.name] = str(column.type)
     return jsonify(schema)
 
-@verbs.route('/verbs', methods=['GET'])
+@verbs.route('', methods=['GET'])
 def get_all_verbs():
     verbs = Verb.query_all()
 
-@verbs.route('/verbs/<int:verb_id>', methods=['GET'])
+@verbs.route('/<int:verb_id>', methods=['GET'])
 def get_verb(verb_id):
     verb = Verb.query_by_id(verb_id)
     if verb:
         return jsonify(verb.to_dict()), 200
     return jsonify({'error': 'Verb not found'}), 404
 
-@verbs.route('/verbs/<string:verb_name>', methods=['GET'])
+@verbs.route('/<string:verb_name>', methods=['GET'])
 def get_verb_by_name(verb_name):
     verb = Verb.query_by_name(verb_name)
     if verb:
         return jsonify(verb.to_dict()), 200
     return jsonify({'error': 'Verb not found'}), 404
 
-@verbs.route('/verbs', methods=['POST'])
+@verbs.route('', methods=['POST'])
 def create_verb():
     data = request.get_json()
     verb = Verb(name=data.get('name'))
@@ -40,7 +40,7 @@ def create_verb():
         db.session.rollback()
         return jsonify({'error': 'Integrity error, possibly duplicate entry'}), 400
 
-@verbs.route('/verbs/<int:verb_id>', methods=['PUT'])
+@verbs.route('/<int:verb_id>', methods=['PUT'])
 def update_verb(verb_id):
     data = request.get_json()
     verb = Verb.query_by_id(verb_id)
@@ -49,7 +49,7 @@ def update_verb(verb_id):
         return jsonify(verb.to_dict()), 200
     return jsonify({'error': 'Verb not found'}), 404
 
-@verbs.route('/verbs/<int:verb_id>', methods=['DELETE'])
+@verbs.route('/<int:verb_id>', methods=['DELETE'])
 def delete_verb(verb_id):
     verb = Verb.query_by_id(verb_id)
     if verb:

@@ -11,26 +11,26 @@ def get_states_schema():
         schema[column.name] = str(column.type)
     return jsonify(schema)
 
-@states.route('/states', methods=['GET'])
+@states.route('', methods=['GET'])
 def get_all_states():
     states = State.query_all()
     return jsonify([state.to_dict() for state in states]), 200
 
-@states.route('/states/<int:state_id>', methods=['GET'])
+@states.route('/<int:state_id>', methods=['GET'])
 def get_state(state_id):
     state = State.query_by_id(state_id)
     if state:
         return jsonify(state.to_dict()), 200
     return jsonify({'error': 'State not found'}), 404
 
-@states.route('/states/<string:state_name>', methods=['GET'])
+@states.route('/<string:state_name>', methods=['GET'])
 def get_state_by_name(state_name):
     state = State.query_by_name(state_name)
     if state:
         return jsonify(state.to_dict()), 200
     return jsonify({'error': 'State not found'}), 404
 
-@states.route('/states', methods=['POST'])
+@states.route('', methods=['POST'])
 def create_state():
     data = request.get_json()
     state = State(name=data.get('name'))
@@ -41,7 +41,7 @@ def create_state():
         db.session.rollback()
         return jsonify({'error': 'Integrity error, possibly duplicate entry'}), 400
 
-@states.route('/states/<int:state_id>', methods=['PUT'])
+@states.route('/<int:state_id>', methods=['PUT'])
 def update_state(state_id):
     data = request.get_json()
     state = State.query_by_id(state_id)
@@ -50,7 +50,7 @@ def update_state(state_id):
         return jsonify(state.to_dict()), 200
     return jsonify({'error': 'State not found'}), 404
 
-@states.route('/states/<int:state_id>', methods=['DELETE'])
+@states.route('/<int:state_id>', methods=['DELETE'])
 def delete_state(state_id):
     state = State.query_by_id(state_id)
     if state:

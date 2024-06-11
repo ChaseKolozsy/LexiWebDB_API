@@ -11,26 +11,26 @@ def get_attributes_schema():
         schema[column.name] = str(column.type)
     return jsonify(schema)
 
-@attributes.route('/attributes', methods=['GET'])
+@attributes.route('', methods=['GET'])
 def get_all_attributes():
     attributes = Attribute.query_all()
     return jsonify([attr.to_dict() for attr in attributes]), 200
 
-@attributes.route('/attributes/<int:attribute_id>', methods=['GET'])
+@attributes.route('/<int:attribute_id>', methods=['GET'])
 def get_attribute(attribute_id):
     attribute = Attribute.query_by_id(attribute_id)
     if attribute:
         return jsonify(attribute.to_dict()), 200
     return jsonify({'error': 'Attribute not found'}), 404
 
-@attributes.route('/attributes/<string:attribute_name>', methods=['GET'])
+@attributes.route('/<string:attribute_name>', methods=['GET'])
 def get_attribute_by_name(attribute_name):
     attribute = Attribute.query_by_name(attribute_name)
     if attribute:
         return jsonify(attribute.to_dict()), 200
     return jsonify({'error': 'Attribute not found'}), 404
 
-@attributes.route('/attributes', methods=['POST'])
+@attributes.route('', methods=['POST'])
 def create_attribute():
     data = request.get_json()
     attribute = Attribute(name=data.get('name'))
@@ -41,7 +41,7 @@ def create_attribute():
         db.session.rollback()
         return jsonify({'error': 'Integrity error, possibly duplicate entry'}), 400
 
-@attributes.route('/attributes/<int:attribute_id>', methods=['PUT'])
+@attributes.route('/<int:attribute_id>', methods=['PUT'])
 def update_attribute(attribute_id):
     data = request.get_json()
     attribute = Attribute.query_by_id(attribute_id)
@@ -50,7 +50,7 @@ def update_attribute(attribute_id):
         return jsonify(attribute.to_dict()), 200
     return jsonify({'error': 'Attribute not found'}), 404
 
-@attributes.route('/attributes/<int:attribute_id>', methods=['DELETE'])
+@attributes.route('/<int:attribute_id>', methods=['DELETE'])
 def delete_attribute(attribute_id):
     attribute = Attribute.query_by_id(attribute_id)
     if attribute:
