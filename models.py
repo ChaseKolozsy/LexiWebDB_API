@@ -397,9 +397,11 @@ class Routine(db.Model):
         db.session.add(self)
         db.session.commit()
 
-    def update(self, name=None):
+    def update(self, name=None, description=None):
         if name:
             self.name = name
+        if description:
+            self.description = description
         db.session.commit()
 
     def delete(self):
