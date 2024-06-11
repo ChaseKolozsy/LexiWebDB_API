@@ -46,6 +46,13 @@ def get_branch_node_by_id(node_id):
         return jsonify(branch_node.to_dict())
     return jsonify(error="Branch Node not found"), 404
 
+@branch_nodes.route('/branch_nodes/<string:enumerated_lemma>', methods=['GET'])
+def get_branch_node_by_enumerated_lemma(enumerated_lemma):
+    branch_node = BranchNode.query_by_enumerated_lemma(enumerated_lemma)
+    if branch_node:
+        return jsonify(branch_node.to_dict())
+    return jsonify(error="Branch Node not found"), 404
+
 
 @branch_nodes.route('/<int:node_id>', methods=['DELETE'])
 def delete_branch_node(node_id):

@@ -4,11 +4,17 @@ from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy import inspect, text
 
 from dotenv import load_dotenv
-from models import db, Enumerated_Lemmas, Phrases, Branch, BranchNode
+from models import db
 from blueprint_Enumerated_Lemmas import enumerated_lemmas
 from blueprint_Phrases import phrases
 from blueprint_branches import branches
 from blueprint_branch_nodes import branch_nodes
+from blueprint_objects import objects
+from blueprint_verbs import verbs
+from blueprint_attributes import attributes
+from blueprint_routines import routines
+from blueprint_states import states
+from blueprint_grammar_points import grammar_points
 
 import os
 
@@ -19,6 +25,12 @@ app.register_blueprint(enumerated_lemmas, url_prefix='/enumerated_lemmas')
 app.register_blueprint(phrases, url_prefix='/phrases')
 app.register_blueprint(branches, url_prefix='/branches')
 app.register_blueprint(branch_nodes, url_prefix='/branch_nodes')
+app.register_blueprint(objects, url_prefix='/objects')
+app.register_blueprint(verbs, url_prefix='/verbs')
+app.register_blueprint(attributes, url_prefix='/attributes')
+app.register_blueprint(routines, url_prefix='/routines')
+app.register_blueprint(states, url_prefix='/states')
+app.register_blueprint(grammar_points, url_prefix='/grammar_points')
 
 # Configure the PostgreSQL database
 app.config['SQLALCHEMY_DATABASE_URI'] = f"postgresql://{os.getenv('POSTGRES_USER')}:{os.getenv('POSTGRES_PASSWORD')}@db:5432/{os.getenv('POSTGRES_DB')}"
