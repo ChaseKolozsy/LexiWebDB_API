@@ -16,6 +16,8 @@ class Enumerated_Lemmas(db.Model):
     object_exploration_link = db.Column(db.String, nullable=True)
     anki_card_ids = db.Column(db.ARRAY(db.Integer), nullable=True)
     familiar = db.Column(db.Boolean, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
     def __repr__(self):
         return f'<Definition {self.enumerated_lemma} ({self.Part_of_speech}):\nfrequency: {self.frequency}:\ndefinition: {self.definition}>'
@@ -56,6 +58,8 @@ class Phrases(db.Model):
     anki_card_ids = db.Column(db.ARRAY(db.Integer), nullable=True)
     familiar = db.Column(db.Boolean, nullable=False)
     frequency = db.Column(db.Integer, nullable=True)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
     def __repr__(self):
         return f'<Phrase {self.phrase}>'
@@ -158,3 +162,112 @@ class BranchNode(db.Model):
     @staticmethod
     def query_by_id(node_id):
         return BranchNode.query.filter_by(node_id=node_id).first()
+
+class GrammarPoint(db.Model):
+    __tablename__ = 'grammar_points'
+    gp_id = db.Column(db.Integer, primary_key=True, unique=True, autoincrement=True)
+    grammar_point = db.Column(db.String, nullable=False)
+    example_phrase = db.Column(db.String, nullable=True)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    def __repr__(self):
+        return f'<GrammarPoint {self.gp_id}: {self.grammar_point}>'
+
+    def add(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+
+    def update(self, grammar_point=None, example_phrase=None):
+        if example_phrase is not None:
+            self.example_phrase = example_phrase
+        db.session.commit()
+
+    def to_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+
+    @staticmethod
+    def query_all():
+        return GrammarPoint.query.all()
+
+    @staticmethod
+    def query_by_id(gp_id):
+        return GrammarPoint.query.filter_by(gp_id=gp_id).first()
+
+# Association tables
+object_attributes = db.Table('object_attributes',
+    db.Column('object_id', db.Integer, db.ForeignKey('objects.object_id'), primary_key=True),
+    db.Column('attribute_id', db.Integer, db.ForeignKey('attributes.attribute_id'), primary_key=True)
+)
+
+object_verbs = db.Table('object_verbs',
+    db.Column('object_id', db.Integer, db.ForeignKey('objects.object_id'), primary_key=True),
+    db.Column('verb_id', db.Integer, db.ForeignKey('verbs.verb_id'), primary_key=True)
+)
+
+object_states = db.Table('object_states',
+    db.Column('object_id', db.Integer, db.ForeignKey('objects.object_id'), primary_key=True),
+    db.Column('state_id', db.Integer, db.ForeignKey('states.state_id'), primary_key=True)
+)
+
+object_routines = db.Table('object_routines',
+    db.Column('object_id', db.Integer, db.ForeignKey('objects.object_id'), primary_key=True),
+    db.Column('routine_id', db.Integer, db.ForeignKey('routines.routine_id'), primary_key=True)
+)
+
+class Object(db.Model):
+    __tablename__ = 'objects'
+    object_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    attributes = db.relationship('Attribute', secondary=object_attributes, backref=db.backref('objects', lazy='dynamic'))
+    verbs = db.relationship('Verb', secondary=object_verbs, backref=db.backref('objects', lazy='dynamic'))
+    states = db.relationship('State', secondary=object_states, backref=db.backref('objects', lazy='dynamic'))
+    routines = db.relationship('Routine', secondary=object_routines, backref=db.backref('objects', lazy='dynamic'))
+
+    def __repr__(self):
+        return f'<Object {self.object_id}: {self.name}>'
+
+class Attribute(db.Model):
+    __tablename__ = 'attributes'
+    attribute_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    def __repr__(self):
+        return f'<Attribute {self.attribute_id}: {self.name}>'
+
+class Verb(db.Model):
+    __tablename__ = 'verbs'
+    verb_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    def __repr__(self):
+        return f'<Verb {self.verb_id}: {self.name}>'
+
+class State(db.Model):
+    __tablename__ = 'states'
+    state_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    def __repr__(self):
+        return f'<State {self.state_id}: {self.name}>'
+
+class Routine(db.Model):
+    __tablename__ = 'routines'
+    routine_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
