@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from models import db, Object
+from models import db, Object, Verb, Attribute, State, Routine
 from sqlalchemy.exc import IntegrityError
 
 objects = Blueprint('objects', __name__)
@@ -49,3 +49,43 @@ def delete_object(object_id):
         obj.delete()
         return jsonify({'message': 'Object deleted'}), 200
     return jsonify({'error': 'Object not found'}), 404
+
+@objects.route('/objects/<int:object_id>/add_association', methods=['POST'])
+def add_association(object_id):
+    data = request.get_json()
+    obj = Object.query_by_id(object_id)
+    if not obj:
+        return jsonify({'error': 'Object not found'}), 404
+
+    assoc_type = data.get('type')
+    assoc_id = data.get('id')
+
+    if assoc_type == 'verb':
+        assoc_obj = Verb.query_by_id(assoc_id)
+        if assoc_obj:
+            obj.verbs.append(assoc_obj)
+        else:
+            return jsonify({'error': 'Verb not found'}), 404
+    elif assoc_type == 'attribute':
+        assoc_obj = Attribute.query_by_id(assoc_id)
+        if assoc_obj:
+            obj.attributes.append(assoc_obj)
+        else:
+            return jsonify({'error': 'Attribute not found'}), 404
+    elif assoc_type == 'state':
+        assoc_obj = State.query_by_id(assoc_id)
+        if assoc_obj:
+            obj.states.append(assoc_obj)
+        else:
+            return jsonify({'error': 'State not found'}), 404
+    elif assoc_type == 'routine':
+        assoc_obj = Routine.query_by_id(assoc_id)
+        if assoc_obj:
+            obj.routines.append(assoc_obj)
+        else:
+            return jsonify({'error': 'Routine not found'}), 404
+    else:
+        return jsonify({'error': 'Invalid association type'}), 400
+
+    db.session.commit()
+    return jsonify(obj.to_dict()), 200
