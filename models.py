@@ -234,6 +234,27 @@ class Object(db.Model):
     def __repr__(self):
         return f'<Object {self.object_id}: {self.name}>'
 
+    def add(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def update(self, name=None):
+        if name:
+            self.name = name
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+
+    @staticmethod
+    def query_all():
+        return Object.query.all()
+
+    @staticmethod
+    def query_by_id(object_id):
+        return Object.query.filter_by(object_id=object_id).first()
+
 class Attribute(db.Model):
     __tablename__ = 'attributes'
     attribute_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -243,6 +264,27 @@ class Attribute(db.Model):
 
     def __repr__(self):
         return f'<Attribute {self.attribute_id}: {self.name}>'
+
+    def add(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def update(self, name=None):
+        if name:
+            self.name = name
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+
+    @staticmethod
+    def query_all():
+        return Attribute.query.all()
+
+    @staticmethod
+    def query_by_id(attribute_id):
+        return Attribute.query.filter_by(attribute_id=attribute_id).first()
 
 class Verb(db.Model):
     __tablename__ = 'verbs'
@@ -254,6 +296,27 @@ class Verb(db.Model):
     def __repr__(self):
         return f'<Verb {self.verb_id}: {self.name}>'
 
+    def add(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def update(self, name=None):
+        if name:
+            self.name = name
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+
+    @staticmethod
+    def query_all():
+        return Verb.query.all()
+
+    @staticmethod
+    def query_by_id(verb_id):
+        return Verb.query.filter_by(verb_id=verb_id).first()
+
 class State(db.Model):
     __tablename__ = 'states'
     state_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -264,6 +327,27 @@ class State(db.Model):
     def __repr__(self):
         return f'<State {self.state_id}: {self.name}>'
 
+    def add(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def update(self, name=None):
+        if name:
+            self.name = name
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+
+    @staticmethod
+    def query_all():
+        return State.query.all()
+
+    @staticmethod
+    def query_by_id(state_id):
+        return State.query.filter_by(state_id=state_id).first()
+
 class Routine(db.Model):
     __tablename__ = 'routines'
     routine_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -271,3 +355,26 @@ class Routine(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
+    def __repr__(self):
+        return f'<Routine {self.routine_id}: {self.name}>'
+
+    def add(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def update(self, name=None):
+        if name:
+            self.name = name
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+
+    @staticmethod
+    def query_all():
+        return Routine.query.all()
+
+    @staticmethod
+    def query_by_id(routine_id):
+        return Routine.query.filter_by(routine_id=routine_id).first()
