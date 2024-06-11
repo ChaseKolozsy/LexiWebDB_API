@@ -23,6 +23,13 @@ def get_attribute(attribute_id):
         return jsonify(attribute.to_dict()), 200
     return jsonify({'error': 'Attribute not found'}), 404
 
+@attributes.route('/attributes/<string:attribute_name>', methods=['GET'])
+def get_attribute_by_name(attribute_name):
+    attribute = Attribute.query_by_name(attribute_name)
+    if attribute:
+        return jsonify(attribute.to_dict()), 200
+    return jsonify({'error': 'Attribute not found'}), 404
+
 @attributes.route('/attributes', methods=['POST'])
 def create_attribute():
     data = request.get_json()

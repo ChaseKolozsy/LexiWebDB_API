@@ -22,6 +22,13 @@ def get_verb(verb_id):
         return jsonify(verb.to_dict()), 200
     return jsonify({'error': 'Verb not found'}), 404
 
+@verbs.route('/verbs/<string:verb_name>', methods=['GET'])
+def get_verb_by_name(verb_name):
+    verb = Verb.query_by_name(verb_name)
+    if verb:
+        return jsonify(verb.to_dict()), 200
+    return jsonify({'error': 'Verb not found'}), 404
+
 @verbs.route('/verbs', methods=['POST'])
 def create_verb():
     data = request.get_json()

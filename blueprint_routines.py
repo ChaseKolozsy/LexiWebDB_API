@@ -23,6 +23,13 @@ def get_routine(routine_id):
         return jsonify(routine.to_dict()), 200
     return jsonify({'error': 'Routine not found'}), 404
 
+@routines.route('/routines/<string:routine_name>', methods=['GET'])
+def get_routine_by_name(routine_name):
+    routine = Routine.query_by_name(routine_name)
+    if routine:
+        return jsonify(routine.to_dict()), 200
+    return jsonify({'error': 'Routine not found'}), 404
+
 @routines.route('/routines', methods=['POST'])
 def create_routine():
     data = request.get_json()

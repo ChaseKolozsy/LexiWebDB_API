@@ -23,6 +23,13 @@ def get_state(state_id):
         return jsonify(state.to_dict()), 200
     return jsonify({'error': 'State not found'}), 404
 
+@states.route('/states/<string:state_name>', methods=['GET'])
+def get_state_by_name(state_name):
+    state = State.query_by_name(state_name)
+    if state:
+        return jsonify(state.to_dict()), 200
+    return jsonify({'error': 'State not found'}), 404
+
 @states.route('/states', methods=['POST'])
 def create_state():
     data = request.get_json()

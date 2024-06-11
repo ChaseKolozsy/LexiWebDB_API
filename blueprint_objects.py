@@ -22,6 +22,13 @@ def get_object(object_id):
         return jsonify(obj.to_dict()), 200
     return jsonify({'error': 'Object not found'}), 404
 
+@objects.route('/objects/<string:object_name>', methods=['GET'])
+def get_object_by_name(object_name):
+    obj = Object.query_by_name(object_name)
+    if obj:
+        return jsonify(obj.to_dict()), 200
+    return jsonify({'error': 'Object not found'}), 404
+
 @objects.route('/objects', methods=['POST'])
 def create_object():
     data = request.get_json()
