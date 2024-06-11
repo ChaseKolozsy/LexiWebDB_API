@@ -240,6 +240,9 @@ class Object(db.Model):
         db.session.add(self)
         db.session.commit()
 
+    def to_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+
     def update(self, name=None):
         if name:
             self.name = name
@@ -266,6 +269,9 @@ class Attribute(db.Model):
 
     def __repr__(self):
         return f'<Attribute {self.attribute_id}: {self.name}>'
+
+    def to_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
     def add(self):
         db.session.add(self)
@@ -298,6 +304,9 @@ class Verb(db.Model):
     def __repr__(self):
         return f'<Verb {self.verb_id}: {self.name}>'
 
+    def to_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+
     def add(self):
         db.session.add(self)
         db.session.commit()
@@ -328,6 +337,9 @@ class State(db.Model):
 
     def __repr__(self):
         return f'<State {self.state_id}: {self.name}>'
+
+    def to_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
     def add(self):
         db.session.add(self)
@@ -360,6 +372,9 @@ class Routine(db.Model):
 
     def __repr__(self):
         return f'<Routine {self.routine_id}: {self.name}>'
+
+    def to_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
     def add(self):
         db.session.add(self)
