@@ -1,6 +1,6 @@
-# WordWebDB_API
+# LexiWebDB_API
 
-WordWebDB_API is a Flask-based API that acts as an intermediary for a PostgreSQL database. It is designed to manage and interact with the WordWebDB, a database for storing phrases, definitions of words, and tracking the frequency of word encounters. It also keeps track of video clips, pages, and visual explorations related to the words being learned. Optionally, also Anki card ids and decks.
+LexiWebDB_API is a Flask-based API that acts as an intermediary for a PostgreSQL database. It is designed to manage and interact with the LexiWebDB, a database for storing phrases, definitions of words, and tracking the frequency of word encounters. It also keeps track of video clips, pages, and visual explorations related to the words being learned. Optionally, also Anki card ids and decks.
 
 Words and phrases and definitions can be manually entered into it from dictionaries and native media, etc. However, this API is designed with the intent of using Generative AI to automatically create enumerated dictionary entries and example sentences for each new word the learner encounteres in native media so that the learner doesn't have to look up words in a dictionary. 
 
@@ -76,17 +76,17 @@ The `Familiar` field keeps track of whether or not the word has been encountered
 
 ## Installation
 
-To set up the WordWebDB_API project, follow these steps:
+To set up the LexiWebDB_API project, follow these steps:
 
-1. Clone the WordWebDB_API repository:
+1. Clone the LexiWebDB_API repository:
 
 1. Clone the repository
     ```
-    git clone https://github.com/yourusername/WordWebDB_API.git
+    git clone https://github.com/yourusername/LexiWebDB_API.git
     ```
 2. Navigate to the project directory
     ```
-    cd WordWebDB_API
+    cd LexiWebDB_API
     ```
 
 ### Building the Docker Image
@@ -105,7 +105,7 @@ To set up the WordWebDB_API project, follow these steps:
     docker-compose up
     ```
 
-Now, WordWebDB_API is running in a Docker container on your machine, accessible at `localhost:5002`.
+Now, LexiWebDB_API is running in a Docker container on your machine, accessible at `localhost:5002`.
 
 ## API Endpoints
 
@@ -118,8 +118,9 @@ Now, WordWebDB_API is running in a Docker container on your machine, accessible 
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](https://github.com/yourusername/WordWebDB_API/blob/main/CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
+Please read [CONTRIBUTING.md](https://github.com/yourusername/LexiWebDB_API/blob/main/CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/yourusername/WordWebDB_API/blob/main/LICENSE.md) file for details.
+This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/yourusername/LexiWebDB_API/blob/main/LICENSE.md) file for details.
+
