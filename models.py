@@ -183,6 +183,8 @@ class GrammarPoint(db.Model):
         db.session.commit()
 
     def update(self, grammar_point=None, example_phrase=None):
+        if grammar_point is not None:
+            self.grammar_point = grammar_point
         if example_phrase is not None:
             self.example_phrase = example_phrase
         db.session.commit()
