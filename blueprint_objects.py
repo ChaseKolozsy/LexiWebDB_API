@@ -14,6 +14,7 @@ def get_objects_schema():
 @objects.route('', methods=['GET'])
 def get_all_objects():
     objects = Object.query_all()
+    return jsonify([obj.to_dict() for obj in objects]), 200
 
 @objects.route('/<int:object_id>', methods=['GET'])
 def get_object(object_id):
