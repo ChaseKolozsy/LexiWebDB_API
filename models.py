@@ -16,6 +16,7 @@ class Enumerated_Lemmas(db.Model):
     object_exploration_link = db.Column(db.String, nullable=True)
     anki_card_ids = db.Column(db.ARRAY(db.Integer), nullable=True)
     familiar = db.Column(db.Boolean, nullable=False)
+    active = db.Column(db.Boolean, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 

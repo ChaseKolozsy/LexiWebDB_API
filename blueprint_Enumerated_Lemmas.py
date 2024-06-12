@@ -24,6 +24,7 @@ def create_enumerated_lemma():
     media_references = data.get('media_references', None)
     object_exploration_link = data.get('object_exploration_link', None)
     familiar = data.get('familiar', None)
+    active = data.get('active', None)
     anki_card_ids = data.get('anki_card_ids', None)
 
     if not enumerated_lemma:
@@ -38,6 +39,7 @@ def create_enumerated_lemma():
         phrase=phrase, 
         story_link=story_link, 
         media_references=media_references, 
+        active=active,
         object_exploration_link=object_exploration_link, 
         familiar=familiar,
         anki_card_ids=anki_card_ids
