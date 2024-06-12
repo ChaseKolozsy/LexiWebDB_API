@@ -21,7 +21,7 @@ def create_enumerated_lemma():
     frequency = data.get('frequency', None)
     phrase = data.get('phrase', None)
     story_link = data.get('story_link', None)
-    media_excerpts = data.get('media_excerpts', None)
+    media_references = data.get('media_references', None)
     object_exploration_link = data.get('object_exploration_link', None)
     familiar = data.get('familiar', None)
     anki_card_ids = data.get('anki_card_ids', None)
@@ -37,7 +37,7 @@ def create_enumerated_lemma():
         frequency=frequency, 
         phrase=phrase, 
         story_link=story_link, 
-        media_excerpts=media_excerpts, 
+        media_references=media_references, 
         object_exploration_link=object_exploration_link, 
         familiar=familiar,
         anki_card_ids=anki_card_ids

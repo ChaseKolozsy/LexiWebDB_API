@@ -12,7 +12,7 @@ class Enumerated_Lemmas(db.Model):
     frequency = db.Column(db.Integer, nullable=True)
     phrase = db.Column(db.String, nullable=True)
     story_link = db.Column(db.String, nullable=True)
-    media_excerpts = db.Column(db.ARRAY(db.String), nullable=True, comment='Stores filenames for media excerpts')
+    media_references = db.Column(db.ARRAY(db.String), nullable=True, comment='Stores filenames for media references')
     object_exploration_link = db.Column(db.String, nullable=True)
     anki_card_ids = db.Column(db.ARRAY(db.Integer), nullable=True)
     familiar = db.Column(db.Boolean, nullable=False)
