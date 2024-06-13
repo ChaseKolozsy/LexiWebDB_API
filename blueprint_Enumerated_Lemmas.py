@@ -63,6 +63,12 @@ def get_enumerated_lemma_by_name(lemma_name):
         return jsonify(enumerated_lemma.to_dict())
     return jsonify(error="Lemma not found"), 404
 
+def get_enumerated_lemma_by_base_lemma(base_lemma):
+    enumerated_lemma = Enumerated_Lemmas.query_by_base_lemma(base_lemma)
+    if enumerated_lemma:
+        return jsonify(enumerated_lemma.to_dict())
+    return jsonify(error="Lemma not found"), 404
+
 @enumerated_lemmas.route('/<enumerated_lemma>', methods=['PUT'])
 def update_enumerated_lemma(enumerated_lemma):
     data = request.json

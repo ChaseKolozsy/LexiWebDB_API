@@ -51,6 +51,10 @@ class Enumerated_Lemmas(db.Model):
     def query_by_lemma(lemma_n):
         return Enumerated_Lemmas.query.filter_by(enumerated_lemma=lemma_n).first()
 
+    @staticmethod
+    def query_by_base_lemma(base_lemma):
+        return Enumerated_Lemmas.query.filter_by(base_lemma=base_lemma).all()
+
 class Phrases(db.Model):
     __tablename__ = 'phrases'
     phrase = db.Column(db.String, primary_key=True, unique=True)
