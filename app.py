@@ -21,16 +21,16 @@ import os
 load_dotenv()
 
 app = Flask(__name__)
-app.register_blueprint(enumerated_lemmas, url_prefix='/enumerated_lemmas')
-app.register_blueprint(phrases, url_prefix='/phrases')
-app.register_blueprint(branches, url_prefix='/branches')
-app.register_blueprint(branch_nodes, url_prefix='/branch_nodes')
-app.register_blueprint(objects, url_prefix='/objects')
-app.register_blueprint(verbs, url_prefix='/verbs')
-app.register_blueprint(attributes, url_prefix='/attributes')
-app.register_blueprint(routines, url_prefix='/routines')
-app.register_blueprint(states, url_prefix='/states')
-app.register_blueprint(grammar_points, url_prefix='/grammar_points')
+app.register_blueprint(enumerated_lemmas, url_prefix='/api/enumerated_lemmas')
+app.register_blueprint(phrases, url_prefix='/api/phrases')
+app.register_blueprint(branches, url_prefix='/api/branches')
+app.register_blueprint(branch_nodes, url_prefix='/api/branch_nodes')
+app.register_blueprint(objects, url_prefix='/api/objects')
+app.register_blueprint(verbs, url_prefix='/api/verbs')
+app.register_blueprint(attributes, url_prefix='/api/attributes')
+app.register_blueprint(routines, url_prefix='/api/routines')
+app.register_blueprint(states, url_prefix='/api/states')
+app.register_blueprint(grammar_points, url_prefix='/api/grammar_points')
 
 # Configure the PostgreSQL database
 app.config['SQLALCHEMY_DATABASE_URI'] = f"postgresql://{os.getenv('POSTGRES_USER')}:{os.getenv('POSTGRES_PASSWORD')}@db:5432/{os.getenv('POSTGRES_DB')}"
