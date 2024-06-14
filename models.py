@@ -9,7 +9,7 @@ class Enumerated_Lemmas(db.Model):
     base_lemma = db.Column(db.String, nullable=False)
     definition = db.Column(db.String, nullable=False)
     part_of_speech = db.Column(db.String, nullable=False)
-    frequency = db.Column(db.Integer, nullable=True)
+    frequency = db.Column(db.Integer, nullable=False)
     phrase = db.Column(db.String, nullable=True)
     story_link = db.Column(db.String, nullable=True)
     media_references = db.Column(db.ARRAY(db.String), nullable=True, comment='Stores filenames for media references')
