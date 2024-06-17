@@ -8,6 +8,7 @@ class Enumerated_Lemmas(db.Model):
     enumerated_lemma = db.Column(db.String, primary_key=True, unique=True)
     base_lemma = db.Column(db.String, nullable=False)
     definition = db.Column(db.String, nullable=False)
+    english_translation = db.Column(db.String, nullable=True, comment='Only for initial seeding')
     part_of_speech = db.Column(db.String, nullable=False)
     frequency = db.Column(db.Integer, nullable=False)
     phrase = db.Column(db.String, nullable=True)

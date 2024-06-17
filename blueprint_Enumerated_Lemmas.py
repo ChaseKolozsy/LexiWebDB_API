@@ -17,6 +17,7 @@ def create_enumerated_lemma():
     enumerated_lemma = data.get('enumerated_lemma', None)
     base_lemma = data.get('base_lemma', None)
     definition = data.get('definition', None)
+    english_translation = data.get('english_translation', None)
     part_of_speech = data.get('part_of_speech', None)
     frequency = data.get('frequency', None)
     phrase = data.get('phrase', None)
@@ -63,11 +64,12 @@ def get_enumerated_lemma_by_name(lemma_name):
         return jsonify(enumerated_lemma.to_dict())
     return jsonify(error="Lemma not found"), 404
 
+@enumerated_lemmas.route('/base_lemma/<base_lemma>', methods=['GET'])
 def get_enumerated_lemma_by_base_lemma(base_lemma):
-    enumerated_lemma = Enumerated_Lemmas.query_by_base_lemma(base_lemma)
-    if enumerated_lemma:
-        return jsonify(enumerated_lemma.to_dict())
-    return jsonify(error="Lemma not found"), 404
+    enumerated_lemmas = Enumerated_Lemmas.query_by_base_lemma(base_lemma)
+    if enumerated_lemmas:
+        return jsonify(enumerated_lemmas=[lemma.to_dict() for lemma in enumerated_lemmas])
+    return jsonify(error="Lemmas not found"), 404
 
 @enumerated_lemmas.route('/<enumerated_lemma>', methods=['PUT'])
 def update_enumerated_lemma(enumerated_lemma):
