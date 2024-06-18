@@ -84,5 +84,24 @@ def drop_columns_not_in_opt_in_list():
 
     return jsonify(columns_to_drop), 200
 
+@app.route('/get_encoding', methods=['GET'])
+def get_encoding():
+    try:
+        with db.engine.connect() as conn:
+            result = conn.execute(text("SHOW SERVER_ENCODING"))
+            encoding = result.fetchone()[0]
+        return jsonify(encoding=encoding), 200
+    except Exception as e:
+        return jsonify(error=str(e)), 500
+
+@app.route('/set_encoding', methods=['POST'])
+def set_encoding():
+    try:
+        with db.engine.connect() as conn:
+            conn.execute(text("SET CLIENT_ENCODING TO 'UTF8'"))
+        return "Client encoding set to UTF8 successfully!", 200
+    except Exception as e:
+        return jsonify(error=str(e)), 500
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5002, debug=True)
