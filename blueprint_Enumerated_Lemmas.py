@@ -35,6 +35,7 @@ def create_enumerated_lemma():
         enumerated_lemma=enumerated_lemma, 
         base_lemma=base_lemma,  # Ensure base_lemma is included
         definition=definition, 
+        english_translation=english_translation,
         part_of_speech=part_of_speech, 
         frequency=frequency, 
         phrase=phrase, 
@@ -52,6 +53,7 @@ def create_enumerated_lemma():
     except IntegrityError:
         db.session.rollback()
         return jsonify(error="Enumerated Lemma already exists"), 400
+
 @enumerated_lemmas.route('', methods=['GET'])
 def get_all_enumerated_lemmas():
     all_enumerated_lemmas = Enumerated_Lemmas.query_all()
