@@ -43,7 +43,7 @@ def init_db():
     try:
         with app.app_context():
             db.create_all()
-        return "Database initialized successfully!"
+        return jsonify(message="Database initialized successfully!"), 200
     except SQLAlchemyError as e:
         db.session.rollback()
         return jsonify(error=str(e)), 500
@@ -54,7 +54,7 @@ def reset_db():
         with app.app_context():
             db.drop_all()
             db.create_all()
-        return "Database reset and reinitialized successfully!"
+        return jsonify(message="Database reset and reinitialized successfully!"), 200
     except SQLAlchemyError as e:
         db.session.rollback()
         return jsonify(error=str(e)), 500
@@ -82,7 +82,7 @@ def drop_columns_not_in_opt_in_list():
     except Exception as e:
         return jsonify(error=str(e)), 500
 
-    return jsonify(columns_to_drop), 200
+    return jsonify(columns_dropped=columns_to_drop), 200
 
 @app.route('/get_encoding', methods=['GET'])
 def get_encoding():
@@ -93,6 +93,18 @@ def get_encoding():
         return jsonify(encoding=encoding), 200
     except Exception as e:
         return jsonify(error=str(e)), 500
+
+@app.route('/set_encoding', methods=['POST'])
+def set_encoding():
+    try:
+        with db.engine.connect() as conn:
+            conn.execute(text("SET CLIENT_ENCODING TO 'UTF8'"))
+        return jsonify(message="Client encoding set to UTF8 successfully!"), 200
+    except Exception as e:
+        return jsonify(error=str(e)), 500
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5002, debug=True)
 
 @app.route('/set_encoding', methods=['POST'])
 def set_encoding():
