@@ -20,7 +20,7 @@ def create_enumerated_lemma():
     english_translation = data.get('english_translation', None)
     part_of_speech = data.get('part_of_speech', None)
     frequency = data.get('frequency', None)
-    phrase = data.get('phrase', None)
+    phrases = data.get('phrases', None)
     story_link = data.get('story_link', None)
     media_references = data.get('media_references', None)
     object_exploration_link = data.get('object_exploration_link', None)
@@ -38,7 +38,7 @@ def create_enumerated_lemma():
         english_translation=english_translation,
         part_of_speech=part_of_speech, 
         frequency=frequency, 
-        phrase=phrase, 
+        phrases=phrases, 
         story_link=story_link, 
         media_references=media_references, 
         active=active,

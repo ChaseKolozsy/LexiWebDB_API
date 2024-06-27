@@ -11,7 +11,7 @@ class Enumerated_Lemmas(db.Model):
     english_translation = db.Column(db.String, nullable=True, comment='Only for initial seeding')
     part_of_speech = db.Column(db.String, nullable=False)
     frequency = db.Column(db.Integer, nullable=False)
-    phrase = db.Column(db.String, nullable=True)
+    phrases = db.Column(db.ARRAY(db.String), nullable=True)
     story_link = db.Column(db.String, nullable=True)
     media_references = db.Column(db.ARRAY(db.String), nullable=True, comment='Stores filenames for media references')
     object_exploration_link = db.Column(db.String, nullable=True)
